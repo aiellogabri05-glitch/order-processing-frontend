@@ -68,8 +68,11 @@ src/
 ├── routes/
 │   └── AppRoutes.tsx
 ├── services/
+│   └── AuthService.ts
 ├── types/
 │   ├── AuthContextType.ts
+│   ├── LoginRequest.ts
+│   ├── LoginResponse.ts
 │   └── User.ts
 ├── utils/
 │
@@ -85,30 +88,36 @@ src/
 
 ```text
 Browser
-
     │
-
+    ▼
 main.tsx
-
     │
-
+    ▼
 <App />
-
     │
-
+    ▼
 <AuthProvider>
-
     │
-
+    ▼
 <BrowserRouter>
-
     │
-
+    ▼
 <AppRoutes>
-
     │
-
+    ▼
 Pages
+    │
+    ▼
+useAuth()
+    │
+    ▼
+AuthContext
+    │
+    ▼
+AuthService
+    │
+    ▼
+Amazon Cognito (Mock)
 ```
 
 ---
@@ -126,8 +135,8 @@ Examples:
 - App.tsx composes the application
 - AppRoutes.tsx defines application routes
 - AuthContext manages authentication state
+- AuthService communicates with the authentication provider
 - useAuth provides access to the authentication context
-- Services will communicate with external systems
 - Pages represent application screens
 
 ---
@@ -157,6 +166,20 @@ Backend
 ```
 
 Each layer communicates only with the layer immediately below it.
+
+---
+
+## Domain First Development
+
+Before implementing features, the project defines:
+
+- Domain models
+- Request contracts
+- Response contracts
+- Services
+- UI
+
+This approach minimizes refactoring and keeps the architecture scalable.
 
 ---
 
@@ -217,7 +240,35 @@ Implemented:
 
 Current authentication is mocked.
 
-Amazon Cognito integration will be implemented in the next milestone.
+---
+
+## ✅ Milestone 4 — Authentication Service Architecture
+
+### Objective
+
+Design the authentication layer before integrating Amazon Cognito.
+
+### Implemented
+
+- Authentication domain models
+  - User
+  - LoginRequest
+  - LoginResponse
+- Stateless AuthService
+- Mock authentication service
+- AuthContext refactoring
+- Authentication delegation (Context → Service)
+
+### Design Decisions
+
+- Domain First Development
+- Stateless services
+- Request / Response contracts
+- Separation of responsibilities
+- AuthContext orchestrates authentication
+- AuthService communicates with the authentication provider
+
+Current authentication is mocked and will be replaced by Amazon Cognito in a future milestone.
 
 ---
 
@@ -228,14 +279,15 @@ Amazon Cognito integration will be implemented in the next milestone.
 - ✅ Project initialization
 - ✅ Routing architecture
 - ✅ Authentication foundation
+- ✅ Authentication service architecture
 
 ## In Progress
 
-- ⏳ AuthService
-- ⏳ Amazon Cognito integration
-- ⏳ Protected Routes
+- ⏳ AuthProvider integration
 - ⏳ Login page
+- ⏳ Protected Routes
 - ⏳ Session persistence
+- ⏳ Amazon Cognito integration
 
 ## Planned
 
@@ -277,11 +329,44 @@ Every feature follows the same workflow:
 1. Understand the problem
 2. Design the architecture
 3. Define responsibilities
-4. Implement
-5. Review the code
-6. Update documentation
+4. Define contracts
+5. Implement
+6. Review the code
+7. Update documentation
 
 The objective is not only to build a working application, but also to understand the reasoning behind every architectural decision.
+
+---
+
+# Software Architecture Philosophy
+
+The project follows a layered architecture.
+
+```text
+Pages
+    │
+    ▼
+Hooks
+    │
+    ▼
+Context
+    │
+    ▼
+Services
+    │
+    ▼
+Backend
+```
+
+Each layer has a single responsibility and communicates only with the adjacent layer.
+
+This architecture improves:
+
+- Maintainability
+- Testability
+- Scalability
+- Readability
+- Separation of Concerns
 
 ---
 
@@ -291,9 +376,11 @@ Developed as a personal Software Engineering learning project.
 
 The focus of this repository is to demonstrate:
 
-- software architecture
-- React best practices
+- Software Architecture
+- React Best Practices
 - TypeScript
-- AWS integration
-- clean code
-- incremental development
+- AWS Integration
+- Clean Code
+- Separation of Responsibilities
+- Incremental Development
+- Domain-Driven Design Principles
