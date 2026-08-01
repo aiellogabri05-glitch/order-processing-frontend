@@ -6,11 +6,11 @@ import './App.css';
 
 function App() {  
   return (
-    <BrowserRouter>
-      <AuthProvider>
+    <AuthProvider>
+       <BrowserRouter>
         <AppRoutes />
-      </AuthProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
