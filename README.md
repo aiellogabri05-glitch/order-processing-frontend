@@ -2,28 +2,21 @@
 
 Frontend application for the **Order Processing System**.
 
-This project is being developed as a software engineering learning journey, following professional development practices and modern frontend architecture.
+This project is being developed as a software engineering learning journey following professional development practices, clean architecture principles, and incremental development.
 
-The frontend will integrate with the backend previously developed using AWS services, including:
-
-- Amazon Cognito
-- API Gateway
-- AWS Lambda
-- DynamoDB
-- JWT Authentication
-- Owner-based Authorization
+The frontend will integrate with the backend previously developed using AWS services.
 
 ---
 
 # Project Goals
 
-The primary objectives of this project are:
+The main objectives of this project are:
 
 - Learn React through a real-world application
 - Learn TypeScript in a practical context
 - Build a scalable frontend architecture
 - Integrate with AWS backend services
-- Apply software engineering principles
+- Apply software engineering best practices
 - Produce production-quality code and documentation
 
 ---
@@ -39,7 +32,7 @@ The primary objectives of this project are:
 - React Context API
 - ESLint
 
-## Planned Integrations
+## Future Integrations
 
 - Amazon Cognito
 - API Gateway
@@ -58,6 +51,7 @@ src/
 │
 ├── assets/
 ├── components/
+│   └── ProtectedRoute.tsx
 ├── contexts/
 │   └── AuthContext.tsx
 ├── hooks/
@@ -106,7 +100,10 @@ main.tsx
 <AppRoutes>
     │
     ▼
-LoginPage
+ProtectedRoute
+    │
+    ▼
+LoginPage / Dashboard
     │
     ▼
 useAuth()
@@ -121,7 +118,7 @@ AuthService
 Mock Authentication
     │
     ▼
-Dashboard
+localStorage
 ```
 
 ---
@@ -132,10 +129,10 @@ Dashboard
 User
     │
     ▼
-LoginPage
+Login Page
     │
     ▼
-Validate Form
+Form Validation
     │
     ▼
 LoginRequest
@@ -156,17 +153,54 @@ Mock Authentication
 LoginResponse
     │
     ▼
+Save User
+(localStorage)
+    │
+    ▼
 Dashboard
 ```
 
-The Login Page is responsible only for:
+---
 
-- Collecting user input
-- Validating the form
-- Calling the authentication context
-- Handling navigation
+# Session Restoration Flow
 
-Authentication logic is fully delegated to the Context and Service layers.
+```text
+Application Start
+        │
+        ▼
+AuthProvider
+        │
+        ▼
+isInitializing = true
+        │
+        ▼
+Read localStorage
+        │
+        ▼
+User Found?
+     ┌────┴────┐
+     │         │
+    Yes        No
+     │         │
+     ▼         ▼
+ setUser()   user=null
+     │         │
+     └────┬────┘
+          ▼
+isInitializing = false
+          │
+          ▼
+ProtectedRoute
+          │
+          ▼
+isAuthenticated?
+     ┌────┴────┐
+     │         │
+    Yes        No
+     │         │
+     ▼         ▼
+Dashboard    Login
+```
 
 ---
 
@@ -183,6 +217,7 @@ Examples:
 - LoginPage manages UI interactions
 - AuthContext manages authentication state
 - AuthService communicates with the authentication provider
+- ProtectedRoute protects authenticated pages
 - useAuth exposes the authentication context
 
 ---
@@ -209,32 +244,19 @@ Each layer communicates only with the adjacent layer.
 
 ---
 
-## Domain First Development
-
-Before implementing a feature, the project defines:
-
-- Domain models
-- Request contracts
-- Response contracts
-- Services
-- Context
-- UI
-
----
-
 ## Stateless Services
 
-Services do not store application state.
+Services never store application state.
 
 Their only responsibility is communicating with external systems.
 
-Application state is managed by React Context.
+Application state belongs to React Context.
 
 ---
 
 ## Incremental Development
 
-Each milestone follows the same workflow:
+Every feature follows the same workflow:
 
 1. Understand the problem
 2. Design the architecture
@@ -307,13 +329,39 @@ Implemented:
 Implemented:
 
 - Login page
-- Controlled components
+- Controlled form inputs
 - Form validation
 - Error handling
 - Loading state
-- LoginRequest integration
-- Navigation after successful authentication
+- Authentication request using LoginRequest
+- Navigation to Dashboard
 - Mock authentication flow
+
+---
+
+## ✅ Milestone 6 — Protected Routes
+
+Implemented:
+
+- ProtectedRoute component
+- Route protection
+- Automatic redirect to Login
+- Route guarding using AuthContext
+- Navigation with React Router
+- Separation between routing and authentication logic
+
+---
+
+## ✅ Milestone 7 — Session Persistence
+
+Implemented:
+
+- Browser localStorage persistence
+- User restoration after page refresh
+- Authentication initialization state
+- isInitializing state
+- ProtectedRoute initialization handling
+- Persistent login across page reloads
 
 ---
 
@@ -326,32 +374,35 @@ Implemented:
 - ✅ Authentication foundation
 - ✅ Authentication service architecture
 - ✅ Authentication flow
+- ✅ Protected Routes
+- ✅ Session persistence
 
-## In Progress
+## Next
 
-- ⏳ Protected Routes
-- ⏳ Session persistence
-- ⏳ Logout
-- ⏳ Amazon Cognito integration
+- Logout flow
+- Dashboard layout
+- Navigation bar
+- User profile
+- Amazon Cognito integration
 
 ## Planned
 
-- Dashboard Layout
 - Orders Service
 - API Gateway integration
 - Orders Dashboard
 - Create Order
 - Update Order
 - Delete Order
-- Error handling improvements
 - Responsive UI
+- Global Error Handling
+- Loading Components
 - Unit Testing
 
 ---
 
 # Backend Integration
 
-The frontend will integrate with the backend previously developed using:
+The frontend will integrate with the backend developed using:
 
 - AWS Lambda
 - API Gateway
@@ -369,26 +420,29 @@ This project is intentionally developed without relying on copy-and-paste tutori
 
 Every architectural decision is discussed before implementation.
 
-The objective is not only to build a working application, but also to understand **why** every design decision has been made.
+The objective is not only to build a working application, but also to understand the reasoning behind every design decision.
 
 ---
 
-# Software Architecture Philosophy
+# Software Architecture
 
 ```text
 Presentation Layer
         │
         ▼
-Hooks Layer
+Pages
         │
         ▼
-Context Layer
+Hooks
         │
         ▼
-Service Layer
+Context
         │
         ▼
-Backend Layer
+Services
+        │
+        ▼
+Backend
 ```
 
 This layered architecture improves:
@@ -412,7 +466,6 @@ The focus of this repository is to demonstrate:
 - TypeScript
 - AWS Integration
 - Clean Code
-- Separation of Responsibilities
-- Incremental Development
 - Layered Architecture
+- Incremental Development
 - Professional Development Workflow
