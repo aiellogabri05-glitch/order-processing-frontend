@@ -2,35 +2,35 @@
 
 Frontend application for the **Order Processing System**.
 
-This project is being developed as a software engineering learning journey, following professional development practices such as:
+This project is being developed as a software engineering learning journey, following professional development practices and modern frontend architecture.
 
-- Architecture-first design
-- Separation of responsibilities
-- Incremental development
-- Code reviews
-- Documentation updates for every milestone
-- Clean and maintainable code
+The frontend will integrate with the backend previously developed using AWS services, including:
 
-The frontend will integrate with the backend previously developed using AWS services, including Amazon Cognito, API Gateway, AWS Lambda and DynamoDB.
+- Amazon Cognito
+- API Gateway
+- AWS Lambda
+- DynamoDB
+- JWT Authentication
+- Owner-based Authorization
 
 ---
 
 # Project Goals
 
-The main objectives of this project are:
+The primary objectives of this project are:
 
-- Learn React through real-world application development
+- Learn React through a real-world application
 - Learn TypeScript in a practical context
 - Build a scalable frontend architecture
 - Integrate with AWS backend services
-- Apply software engineering principles instead of tutorial-driven development
+- Apply software engineering principles
 - Produce production-quality code and documentation
 
 ---
 
 # Tech Stack
 
-Current technologies:
+## Current
 
 - React
 - TypeScript
@@ -39,14 +39,15 @@ Current technologies:
 - React Context API
 - ESLint
 
-Future integrations:
+## Planned Integrations
 
 - Amazon Cognito
 - API Gateway
 - AWS Lambda
+- DynamoDB
 - JWT Authentication
 - REST API
-- CloudWatch (backend)
+- CloudWatch
 
 ---
 
@@ -105,7 +106,7 @@ main.tsx
 <AppRoutes>
     │
     ▼
-Pages
+LoginPage
     │
     ▼
 useAuth()
@@ -117,84 +118,134 @@ AuthContext
 AuthService
     │
     ▼
-Amazon Cognito (Mock)
+Mock Authentication
+    │
+    ▼
+Dashboard
 ```
+
+---
+
+# Authentication Flow
+
+```text
+User
+    │
+    ▼
+LoginPage
+    │
+    ▼
+Validate Form
+    │
+    ▼
+LoginRequest
+    │
+    ▼
+useAuth()
+    │
+    ▼
+AuthContext
+    │
+    ▼
+AuthService
+    │
+    ▼
+Mock Authentication
+    │
+    ▼
+LoginResponse
+    │
+    ▼
+Dashboard
+```
+
+The Login Page is responsible only for:
+
+- Collecting user input
+- Validating the form
+- Calling the authentication context
+- Handling navigation
+
+Authentication logic is fully delegated to the Context and Service layers.
 
 ---
 
 # Design Principles
 
-The project follows several software engineering principles.
-
 ## Single Responsibility Principle (SRP)
 
-Each file has one responsibility.
+Each module has a single responsibility.
 
 Examples:
 
 - App.tsx composes the application
-- AppRoutes.tsx defines application routes
+- AppRoutes.tsx manages routing
+- LoginPage manages UI interactions
 - AuthContext manages authentication state
 - AuthService communicates with the authentication provider
-- useAuth provides access to the authentication context
-- Pages represent application screens
+- useAuth exposes the authentication context
 
 ---
 
 ## Separation of Concerns
 
-Different layers have different responsibilities.
-
 ```text
 Pages
-
-↓
-
+    │
+    ▼
 Hooks
-
-↓
-
+    │
+    ▼
 Context
-
-↓
-
+    │
+    ▼
 Services
-
-↓
-
+    │
+    ▼
 Backend
 ```
 
-Each layer communicates only with the layer immediately below it.
+Each layer communicates only with the adjacent layer.
 
 ---
 
 ## Domain First Development
 
-Before implementing features, the project defines:
+Before implementing a feature, the project defines:
 
 - Domain models
 - Request contracts
 - Response contracts
 - Services
+- Context
 - UI
 
-This approach minimizes refactoring and keeps the architecture scalable.
+---
+
+## Stateless Services
+
+Services do not store application state.
+
+Their only responsibility is communicating with external systems.
+
+Application state is managed by React Context.
 
 ---
 
 ## Incremental Development
 
-The project is developed one milestone at a time.
+Each milestone follows the same workflow:
 
-Each milestone includes:
-
-- Design
-- Implementation
-- Code Review
-- Documentation Update
-- Git Commit
-- GitHub Push
+1. Understand the problem
+2. Design the architecture
+3. Define responsibilities
+4. Define contracts
+5. Implement incrementally
+6. Review the code
+7. Test the complete flow
+8. Update documentation
+9. Commit
+10. Push
 
 ---
 
@@ -202,7 +253,7 @@ Each milestone includes:
 
 ## ✅ Milestone 1 — Project Initialization
 
-Completed:
+Implemented:
 
 - React
 - TypeScript
@@ -216,14 +267,12 @@ Completed:
 Implemented:
 
 - Project folder structure
-- React Router
 - BrowserRouter
+- React Router
 - AppRoutes
 - Login Page
 - Dashboard Page
 - Not Found Page
-
-Architecture was designed before implementation.
 
 ---
 
@@ -232,43 +281,39 @@ Architecture was designed before implementation.
 Implemented:
 
 - User model
-- AuthContextType
 - AuthContext
+- AuthContextType
 - AuthProvider
-- Custom useAuth hook
+- useAuth
 - Shared authentication state
-
-Current authentication is mocked.
 
 ---
 
 ## ✅ Milestone 4 — Authentication Service Architecture
 
-### Objective
+Implemented:
 
-Design the authentication layer before integrating Amazon Cognito.
-
-### Implemented
-
-- Authentication domain models
-  - User
-  - LoginRequest
-  - LoginResponse
-- Stateless AuthService
-- Mock authentication service
-- AuthContext refactoring
-- Authentication delegation (Context → Service)
-
-### Design Decisions
-
-- Domain First Development
-- Stateless services
+- AuthService
+- LoginRequest
+- LoginResponse
+- Stateless authentication service
 - Request / Response contracts
-- Separation of responsibilities
-- AuthContext orchestrates authentication
-- AuthService communicates with the authentication provider
+- Context → Service delegation
 
-Current authentication is mocked and will be replaced by Amazon Cognito in a future milestone.
+---
+
+## ✅ Milestone 5 — Authentication Flow
+
+Implemented:
+
+- Login page
+- Controlled components
+- Form validation
+- Error handling
+- Loading state
+- LoginRequest integration
+- Navigation after successful authentication
+- Mock authentication flow
 
 ---
 
@@ -280,25 +325,25 @@ Current authentication is mocked and will be replaced by Amazon Cognito in a fut
 - ✅ Routing architecture
 - ✅ Authentication foundation
 - ✅ Authentication service architecture
+- ✅ Authentication flow
 
 ## In Progress
 
-- ⏳ AuthProvider integration
-- ⏳ Login page
 - ⏳ Protected Routes
 - ⏳ Session persistence
+- ⏳ Logout
 - ⏳ Amazon Cognito integration
 
 ## Planned
 
-- API Gateway integration
+- Dashboard Layout
 - Orders Service
+- API Gateway integration
 - Orders Dashboard
 - Create Order
 - Update Order
 - Delete Order
-- Error handling
-- Loading states
+- Error handling improvements
 - Responsive UI
 - Unit Testing
 
@@ -306,9 +351,7 @@ Current authentication is mocked and will be replaced by Amazon Cognito in a fut
 
 # Backend Integration
 
-This frontend will integrate with the previously developed backend.
-
-Backend technologies:
+The frontend will integrate with the backend previously developed using:
 
 - AWS Lambda
 - API Gateway
@@ -324,48 +367,36 @@ Backend technologies:
 
 This project is intentionally developed without relying on copy-and-paste tutorials.
 
-Every feature follows the same workflow:
+Every architectural decision is discussed before implementation.
 
-1. Understand the problem
-2. Design the architecture
-3. Define responsibilities
-4. Define contracts
-5. Implement
-6. Review the code
-7. Update documentation
-
-The objective is not only to build a working application, but also to understand the reasoning behind every architectural decision.
+The objective is not only to build a working application, but also to understand **why** every design decision has been made.
 
 ---
 
 # Software Architecture Philosophy
 
-The project follows a layered architecture.
-
 ```text
-Pages
-    │
-    ▼
-Hooks
-    │
-    ▼
-Context
-    │
-    ▼
-Services
-    │
-    ▼
-Backend
+Presentation Layer
+        │
+        ▼
+Hooks Layer
+        │
+        ▼
+Context Layer
+        │
+        ▼
+Service Layer
+        │
+        ▼
+Backend Layer
 ```
 
-Each layer has a single responsibility and communicates only with the adjacent layer.
-
-This architecture improves:
+This layered architecture improves:
 
 - Maintainability
-- Testability
-- Scalability
 - Readability
+- Scalability
+- Testability
 - Separation of Concerns
 
 ---
@@ -383,4 +414,5 @@ The focus of this repository is to demonstrate:
 - Clean Code
 - Separation of Responsibilities
 - Incremental Development
-- Domain-Driven Design Principles
+- Layered Architecture
+- Professional Development Workflow
