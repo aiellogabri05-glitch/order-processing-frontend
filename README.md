@@ -51,6 +51,7 @@ src/
 │
 ├── assets/
 ├── components/
+│   ├── Layout.tsx
 │   └── ProtectedRoute.tsx
 ├── contexts/
 │   └── AuthContext.tsx
@@ -103,7 +104,10 @@ main.tsx
 ProtectedRoute
     │
     ▼
-LoginPage / Dashboard
+Layout
+    │
+    ▼
+Pages
     │
     ▼
 useAuth()
@@ -204,20 +208,42 @@ Dashboard    Login
 
 ---
 
+# Application Layout
+
+All authenticated pages share the same application layout.
+
+```text
+ProtectedRoute
+        │
+        ▼
+      Layout
+        │
+        ├── Header
+        ├── Welcome User
+        ├── Logout Button
+        └── Page Content
+```
+
+The Layout component owns the authenticated user interface while pages focus only on their own business logic.
+
+---
+
 # Design Principles
 
 ## Single Responsibility Principle (SRP)
 
-Each module has a single responsibility.
+Each module has one responsibility.
 
 Examples:
 
 - App.tsx composes the application
 - AppRoutes.tsx manages routing
-- LoginPage manages UI interactions
+- LoginPage handles user interaction
+- DashboardPage displays dashboard content
+- Layout provides the authenticated application shell
+- ProtectedRoute protects private routes
 - AuthContext manages authentication state
 - AuthService communicates with the authentication provider
-- ProtectedRoute protects authenticated pages
 - useAuth exposes the authentication context
 
 ---
@@ -240,7 +266,7 @@ Services
 Backend
 ```
 
-Each layer communicates only with the adjacent layer.
+Each layer communicates only with adjacent layers.
 
 ---
 
@@ -365,27 +391,59 @@ Implemented:
 
 ---
 
+## ✅ Milestone 8 — Logout Flow
+
+Implemented:
+
+- Logout button
+- Complete logout flow
+- Context cleanup
+- localStorage cleanup
+- Automatic navigation to Login
+- Full authentication lifecycle
+
+---
+
+## ✅ Milestone 9 — Application Layout
+
+Implemented:
+
+- Shared Layout component
+- Common authenticated interface
+- Header
+- Welcome message
+- Logout moved into Layout
+- Page composition using children
+- Separation between Layout and Pages
+
+---
+
 # Roadmap
 
-## Completed
+## ✅ Completed
 
-- ✅ Project initialization
-- ✅ Routing architecture
-- ✅ Authentication foundation
-- ✅ Authentication service architecture
-- ✅ Authentication flow
-- ✅ Protected Routes
-- ✅ Session persistence
-
-## Next
-
+- Project initialization
+- Routing architecture
+- Authentication foundation
+- Authentication service architecture
+- Authentication flow
+- Protected Routes
+- Session persistence
 - Logout flow
-- Dashboard layout
-- Navigation bar
-- User profile
+- Application layout
+
+---
+
+## 🚧 Next
+
+- Shared UI Components
+- Application Constants
+- Dashboard improvements
 - Amazon Cognito integration
 
-## Planned
+---
+
+## 📋 Planned
 
 - Orders Service
 - API Gateway integration
@@ -395,6 +453,7 @@ Implemented:
 - Delete Order
 - Responsive UI
 - Global Error Handling
+- Reusable Components
 - Loading Components
 - Unit Testing
 
@@ -414,16 +473,6 @@ The frontend will integrate with the backend developed using:
 
 ---
 
-# Learning Approach
-
-This project is intentionally developed without relying on copy-and-paste tutorials.
-
-Every architectural decision is discussed before implementation.
-
-The objective is not only to build a working application, but also to understand the reasoning behind every design decision.
-
----
-
 # Software Architecture
 
 ```text
@@ -431,6 +480,9 @@ Presentation Layer
         │
         ▼
 Pages
+        │
+        ▼
+Shared Layout
         │
         ▼
 Hooks
@@ -448,10 +500,20 @@ Backend
 This layered architecture improves:
 
 - Maintainability
-- Readability
 - Scalability
+- Readability
 - Testability
 - Separation of Concerns
+
+---
+
+# Learning Approach
+
+This project is intentionally developed without relying on copy-and-paste tutorials.
+
+Every architectural decision is discussed before implementation.
+
+The objective is not only to build a working application, but also to understand the reasoning behind every design decision.
 
 ---
 

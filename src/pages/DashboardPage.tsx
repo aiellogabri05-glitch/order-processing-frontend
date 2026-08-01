@@ -1,5 +1,21 @@
+import {useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+
 function DashboardPage() {
-  return <h1>Dashboard Page</h1>;
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async (): Promise<void> => {
+    await logout();
+    navigate('/');
+  }
+  return(
+    <>
+      <h2>Dashboard</h2>
+
+      <p>You are successfully authenticated.</p>
+    </>
+  );
 }
 
-export default DashboardPage;
+export default DashboardPage;  

@@ -3,7 +3,7 @@ import type { LoginRequest } from '../types/LoginRequest';
 
 export async function login(request: LoginRequest): Promise<LoginResponse> {
     if (
-        request.username !== 'gabriele' ||
+        request.username !== 'Gabriele' ||
         request.password !== 'password123!'
 
     ) {
@@ -13,7 +13,7 @@ export async function login(request: LoginRequest): Promise<LoginResponse> {
     return {
         user: {
             id: '1',
-            username: 'gabriele',
+            username: 'Gabriele',
             email: 'gabriele@example.com'
         },
         accessToken: 'mock-access-token',

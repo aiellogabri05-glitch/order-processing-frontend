@@ -4,6 +4,7 @@ import LoginPage from '../pages/LoginPage';
 import DashboardPage from '../pages/DashboardPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import ProtectedRoute from '../components/ProtectedRoute';
+import Layout from '../components/Layout';
 
 function AppRoutes() {
   return (
@@ -11,7 +12,9 @@ function AppRoutes() {
       <Route path="/" element={<LoginPage />} />
       <Route path="/dashboard" element={
         <ProtectedRoute>
-          <DashboardPage />
+          <Layout>
+            <DashboardPage />
+          </Layout>
         </ProtectedRoute>
       } />
       <Route path="*" element={<NotFoundPage />} />
