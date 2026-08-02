@@ -53,6 +53,10 @@ src/
 ├── components/
 │   ├── Layout.tsx
 │   └── ProtectedRoute.tsx
+├── constants/
+│   ├── messages.ts
+│   ├── routes.ts
+│   └── storage.ts
 ├── contexts/
 │   └── AuthContext.tsx
 ├── hooks/
@@ -210,7 +214,7 @@ Dashboard    Login
 
 # Application Layout
 
-All authenticated pages share the same application layout.
+All authenticated pages share the same layout.
 
 ```text
 ProtectedRoute
@@ -224,7 +228,24 @@ ProtectedRoute
         └── Page Content
 ```
 
-The Layout component owns the authenticated user interface while pages focus only on their own business logic.
+---
+
+# Application Constants
+
+The project centralizes application constants to avoid duplicated hardcoded values.
+
+Current constants include:
+
+- Application routes
+- Local Storage keys
+- Authentication messages
+
+This improves:
+
+- Maintainability
+- Consistency
+- Refactoring
+- Readability
 
 ---
 
@@ -237,14 +258,13 @@ Each module has one responsibility.
 Examples:
 
 - App.tsx composes the application
-- AppRoutes.tsx manages routing
-- LoginPage handles user interaction
-- DashboardPage displays dashboard content
+- AppRoutes manages routing
 - Layout provides the authenticated application shell
 - ProtectedRoute protects private routes
+- LoginPage handles authentication UI
+- DashboardPage displays dashboard content
 - AuthContext manages authentication state
 - AuthService communicates with the authentication provider
-- useAuth exposes the authentication context
 
 ---
 
@@ -266,15 +286,11 @@ Services
 Backend
 ```
 
-Each layer communicates only with adjacent layers.
-
 ---
 
 ## Stateless Services
 
 Services never store application state.
-
-Their only responsibility is communicating with external systems.
 
 Application state belongs to React Context.
 
@@ -282,15 +298,15 @@ Application state belongs to React Context.
 
 ## Incremental Development
 
-Every feature follows the same workflow:
+Every feature follows this workflow:
 
 1. Understand the problem
 2. Design the architecture
 3. Define responsibilities
 4. Define contracts
-5. Implement incrementally
-6. Review the code
-7. Test the complete flow
+5. Implement
+6. Review
+7. Test
 8. Update documentation
 9. Commit
 10. Push
@@ -301,8 +317,6 @@ Every feature follows the same workflow:
 
 ## ✅ Milestone 1 — Project Initialization
 
-Implemented:
-
 - React
 - TypeScript
 - Vite
@@ -312,25 +326,19 @@ Implemented:
 
 ## ✅ Milestone 2 — Routing Foundation
 
-Implemented:
-
-- Project folder structure
-- BrowserRouter
 - React Router
-- AppRoutes
-- Login Page
-- Dashboard Page
-- Not Found Page
+- BrowserRouter
+- Project structure
+- Login page
+- Dashboard page
+- Not Found page
 
 ---
 
 ## ✅ Milestone 3 — Authentication Foundation
 
-Implemented:
-
 - User model
 - AuthContext
-- AuthContextType
 - AuthProvider
 - useAuth
 - Shared authentication state
@@ -339,82 +347,73 @@ Implemented:
 
 ## ✅ Milestone 4 — Authentication Service Architecture
 
-Implemented:
-
 - AuthService
 - LoginRequest
 - LoginResponse
 - Stateless authentication service
 - Request / Response contracts
-- Context → Service delegation
 
 ---
 
 ## ✅ Milestone 5 — Authentication Flow
 
-Implemented:
-
-- Login page
-- Controlled form inputs
-- Form validation
-- Error handling
+- Login form
+- Validation
 - Loading state
-- Authentication request using LoginRequest
-- Navigation to Dashboard
-- Mock authentication flow
+- Error handling
+- Navigation
+- Mock authentication
 
 ---
 
 ## ✅ Milestone 6 — Protected Routes
 
-Implemented:
-
-- ProtectedRoute component
-- Route protection
-- Automatic redirect to Login
-- Route guarding using AuthContext
-- Navigation with React Router
-- Separation between routing and authentication logic
+- ProtectedRoute
+- Route guarding
+- Automatic redirect
+- Authentication checks
 
 ---
 
 ## ✅ Milestone 7 — Session Persistence
 
-Implemented:
-
-- Browser localStorage persistence
-- User restoration after page refresh
-- Authentication initialization state
-- isInitializing state
-- ProtectedRoute initialization handling
-- Persistent login across page reloads
+- localStorage persistence
+- Session restoration
+- Authentication initialization
+- Persistent login
 
 ---
 
 ## ✅ Milestone 8 — Logout Flow
 
-Implemented:
-
 - Logout button
-- Complete logout flow
-- Context cleanup
+- Session cleanup
 - localStorage cleanup
-- Automatic navigation to Login
-- Full authentication lifecycle
+- Automatic redirect to Login
 
 ---
 
 ## ✅ Milestone 9 — Application Layout
 
-Implemented:
-
-- Shared Layout component
-- Common authenticated interface
+- Shared Layout
 - Header
 - Welcome message
 - Logout moved into Layout
-- Page composition using children
-- Separation between Layout and Pages
+- Shared authenticated UI
+
+---
+
+## ✅ Milestone 10 — Codebase Standardization
+
+Implemented:
+
+- Shared application constants
+- Centralized routes
+- Centralized Local Storage keys
+- Centralized authentication messages
+- Removed hardcoded strings
+- Improved maintainability
+- Improved scalability
 
 ---
 
@@ -430,14 +429,14 @@ Implemented:
 - Protected Routes
 - Session persistence
 - Logout flow
-- Application layout
+- Application Layout
+- Codebase standardization
 
 ---
 
 ## 🚧 Next
 
 - Shared UI Components
-- Application Constants
 - Dashboard improvements
 - Amazon Cognito integration
 
@@ -453,7 +452,6 @@ Implemented:
 - Delete Order
 - Responsive UI
 - Global Error Handling
-- Reusable Components
 - Loading Components
 - Unit Testing
 
@@ -461,7 +459,7 @@ Implemented:
 
 # Backend Integration
 
-The frontend will integrate with the backend developed using:
+The frontend will integrate with:
 
 - AWS Lambda
 - API Gateway
@@ -497,23 +495,13 @@ Services
 Backend
 ```
 
-This layered architecture improves:
-
-- Maintainability
-- Scalability
-- Readability
-- Testability
-- Separation of Concerns
-
 ---
 
 # Learning Approach
 
-This project is intentionally developed without relying on copy-and-paste tutorials.
-
 Every architectural decision is discussed before implementation.
 
-The objective is not only to build a working application, but also to understand the reasoning behind every design decision.
+The objective is not only to build a working application but to understand the reasoning behind every design decision.
 
 ---
 
