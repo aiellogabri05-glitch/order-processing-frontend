@@ -1,79 +1,103 @@
 # Order Processing Frontend
 
-Frontend application for the **Order Processing System**.
+A modern React + TypeScript frontend for the **Order Processing System**.
 
-This project is being developed as a software engineering learning journey following professional development practices, clean architecture principles, and incremental development.
+This project is part of a complete full-stack software engineering journey and is being developed using professional software architecture principles rather than tutorial-driven development.
 
-The frontend will integrate with the backend previously developed using AWS services.
+The application will integrate with an AWS backend built with **Amazon Cognito**, **API Gateway**, **AWS Lambda**, and **DynamoDB**.
 
 ---
 
-# Project Goals
+## Features
 
-The main objectives of this project are:
+### Authentication
 
-- Learn React through a real-world application
-- Learn TypeScript in a practical context
-- Build a scalable frontend architecture
-- Integrate with AWS backend services
-- Apply software engineering best practices
-- Produce production-quality code and documentation
+- User login
+- Logout
+- Protected routes
+- Session persistence
+- Shared authentication context
+- Authentication lifecycle management
+
+### Dashboard
+
+- Shared application layout
+- Dashboard overview
+- Orders statistics
+- Mock orders service
+- Recent activity section
+
+### Architecture
+
+- Layered architecture
+- React Context API
+- Custom Hooks
+- Stateless Services
+- Shared Components
+- Centralized Constants
+- Type-safe models
+- Incremental development
 
 ---
 
 # Tech Stack
 
-## Current
-
-- React
-- TypeScript
-- Vite
-- React Router
-- React Context API
-- ESLint
-
-## Future Integrations
-
-- Amazon Cognito
-- API Gateway
-- AWS Lambda
-- DynamoDB
-- JWT Authentication
-- REST API
-- CloudWatch
+| Category | Technologies |
+|----------|--------------|
+| Frontend | React 19 |
+| Language | TypeScript |
+| Build Tool | Vite |
+| Routing | React Router |
+| State Management | React Context API |
+| Linting | ESLint |
+| Authentication | Mock Auth (Amazon Cognito planned) |
+| Backend | AWS Lambda, API Gateway, DynamoDB *(planned integration)* |
 
 ---
 
-# Current Project Structure
+# Project Structure
 
 ```text
 src/
 │
 ├── assets/
+│
 ├── components/
+│   ├── Card.tsx
 │   ├── Layout.tsx
-│   └── ProtectedRoute.tsx
+│   ├── ProtectedRoute.tsx
+│   └── StatisticCard.tsx
+│
 ├── constants/
 │   ├── messages.ts
 │   ├── routes.ts
 │   └── storage.ts
+│
 ├── contexts/
 │   └── AuthContext.tsx
+│
 ├── hooks/
 │   └── useAuth.ts
+│
 ├── pages/
 │   ├── DashboardPage.tsx
 │   ├── LoginPage.tsx
 │   └── NotFoundPage.tsx
+│
 ├── routes/
 │   └── AppRoutes.tsx
+│
 ├── services/
-│   └── AuthService.ts
+│   ├── AuthService.ts
+│   └── OrdersService.ts
+│
 ├── types/
 │   ├── AuthContextType.ts
 │   ├── LoginRequest.ts
 │   ├── LoginResponse.ts
+│   ├── Order.ts
 │   └── User.ts
+│
 ├── utils/
 │
 ├── App.tsx
@@ -84,25 +108,16 @@ src/
 
 ---
 
-# Current Architecture
+# Architecture
 
 ```text
 Browser
     │
     ▼
-main.tsx
+React
     │
     ▼
-<App />
-    │
-    ▼
-<AuthProvider>
-    │
-    ▼
-<BrowserRouter>
-    │
-    ▼
-<AppRoutes>
+BrowserRouter
     │
     ▼
 ProtectedRoute
@@ -114,166 +129,6 @@ Layout
 Pages
     │
     ▼
-useAuth()
-    │
-    ▼
-AuthContext
-    │
-    ▼
-AuthService
-    │
-    ▼
-Mock Authentication
-    │
-    ▼
-localStorage
-```
-
----
-
-# Authentication Flow
-
-```text
-User
-    │
-    ▼
-Login Page
-    │
-    ▼
-Form Validation
-    │
-    ▼
-LoginRequest
-    │
-    ▼
-useAuth()
-    │
-    ▼
-AuthContext
-    │
-    ▼
-AuthService
-    │
-    ▼
-Mock Authentication
-    │
-    ▼
-LoginResponse
-    │
-    ▼
-Save User
-(localStorage)
-    │
-    ▼
-Dashboard
-```
-
----
-
-# Session Restoration Flow
-
-```text
-Application Start
-        │
-        ▼
-AuthProvider
-        │
-        ▼
-isInitializing = true
-        │
-        ▼
-Read localStorage
-        │
-        ▼
-User Found?
-     ┌────┴────┐
-     │         │
-    Yes        No
-     │         │
-     ▼         ▼
- setUser()   user=null
-     │         │
-     └────┬────┘
-          ▼
-isInitializing = false
-          │
-          ▼
-ProtectedRoute
-          │
-          ▼
-isAuthenticated?
-     ┌────┴────┐
-     │         │
-    Yes        No
-     │         │
-     ▼         ▼
-Dashboard    Login
-```
-
----
-
-# Application Layout
-
-All authenticated pages share the same layout.
-
-```text
-ProtectedRoute
-        │
-        ▼
-      Layout
-        │
-        ├── Header
-        ├── Welcome User
-        ├── Logout Button
-        └── Page Content
-```
-
----
-
-# Application Constants
-
-The project centralizes application constants to avoid duplicated hardcoded values.
-
-Current constants include:
-
-- Application routes
-- Local Storage keys
-- Authentication messages
-
-This improves:
-
-- Maintainability
-- Consistency
-- Refactoring
-- Readability
-
----
-
-# Design Principles
-
-## Single Responsibility Principle (SRP)
-
-Each module has one responsibility.
-
-Examples:
-
-- App.tsx composes the application
-- AppRoutes manages routing
-- Layout provides the authenticated application shell
-- ProtectedRoute protects private routes
-- LoginPage handles authentication UI
-- DashboardPage displays dashboard content
-- AuthContext manages authentication state
-- AuthService communicates with the authentication provider
-
----
-
-## Separation of Concerns
-
-```text
-Pages
-    │
-    ▼
 Hooks
     │
     ▼
@@ -286,222 +141,149 @@ Services
 Backend
 ```
 
----
-
-## Stateless Services
-
-Services never store application state.
-
-Application state belongs to React Context.
-
----
-
-## Incremental Development
-
-Every feature follows this workflow:
-
-1. Understand the problem
-2. Design the architecture
-3. Define responsibilities
-4. Define contracts
-5. Implement
-6. Review
-7. Test
-8. Update documentation
-9. Commit
-10. Push
+The project follows a layered architecture where each layer has a single responsibility and communicates only with adjacent layers.
 
 ---
 
 # Completed Milestones
 
-## ✅ Milestone 1 — Project Initialization
-
-- React
-- TypeScript
-- Vite
-- ESLint
-
----
-
-## ✅ Milestone 2 — Routing Foundation
-
-- React Router
-- BrowserRouter
-- Project structure
-- Login page
-- Dashboard page
-- Not Found page
-
----
-
-## ✅ Milestone 3 — Authentication Foundation
-
-- User model
-- AuthContext
-- AuthProvider
-- useAuth
-- Shared authentication state
-
----
-
-## ✅ Milestone 4 — Authentication Service Architecture
-
-- AuthService
-- LoginRequest
-- LoginResponse
-- Stateless authentication service
-- Request / Response contracts
-
----
-
-## ✅ Milestone 5 — Authentication Flow
-
-- Login form
-- Validation
-- Loading state
-- Error handling
-- Navigation
-- Mock authentication
-
----
-
-## ✅ Milestone 6 — Protected Routes
-
-- ProtectedRoute
-- Route guarding
-- Automatic redirect
-- Authentication checks
-
----
-
-## ✅ Milestone 7 — Session Persistence
-
-- localStorage persistence
-- Session restoration
-- Authentication initialization
-- Persistent login
-
----
-
-## ✅ Milestone 8 — Logout Flow
-
-- Logout button
-- Session cleanup
-- localStorage cleanup
-- Automatic redirect to Login
-
----
-
-## ✅ Milestone 9 — Application Layout
-
-- Shared Layout
-- Header
-- Welcome message
-- Logout moved into Layout
-- Shared authenticated UI
-
----
-
-## ✅ Milestone 10 — Codebase Standardization
-
-Implemented:
-
-- Shared application constants
-- Centralized routes
-- Centralized Local Storage keys
-- Centralized authentication messages
-- Removed hardcoded strings
-- Improved maintainability
-- Improved scalability
+| Milestone | Status |
+|-----------|--------|
+| Project Initialization | ✅ |
+| Routing Foundation | ✅ |
+| Authentication Foundation | ✅ |
+| Authentication Service | ✅ |
+| Authentication Flow | ✅ |
+| Protected Routes | ✅ |
+| Session Persistence | ✅ |
+| Logout Flow | ✅ |
+| Shared Application Layout | ✅ |
+| Codebase Standardization | ✅ |
+| Dashboard Foundation | ✅ |
+| Mock Orders Service | ✅ |
 
 ---
 
 # Roadmap
 
-## ✅ Completed
+## Completed
 
-- Project initialization
+- React project initialization
 - Routing architecture
-- Authentication foundation
-- Authentication service architecture
-- Authentication flow
-- Protected Routes
+- Authentication module
+- Protected routes
 - Session persistence
-- Logout flow
-- Application Layout
-- Codebase standardization
+- Shared layout
+- Dashboard foundation
+- Mock Orders Service
+- Centralized application constants
+- Reusable UI components
 
 ---
 
-## 🚧 Next
+## In Progress
 
-- Shared UI Components
-- Dashboard improvements
-- Amazon Cognito integration
+- Orders module
 
 ---
 
-## 📋 Planned
+## Planned
 
-- Orders Service
-- API Gateway integration
-- Orders Dashboard
+- Orders table
 - Create Order
 - Update Order
 - Delete Order
+- Amazon Cognito integration
+- API Gateway integration
+- AWS Lambda integration
 - Responsive UI
-- Global Error Handling
-- Loading Components
-- Unit Testing
+- Loading components
+- Error handling
+- Unit testing
 
 ---
 
-# Backend Integration
+# Design Principles
 
-The frontend will integrate with:
+The project is developed following modern software engineering principles.
 
-- AWS Lambda
-- API Gateway
-- Amazon Cognito
-- DynamoDB
-- JWT Authentication
-- Owner-based Authorization
-- CloudWatch
+- Single Responsibility Principle (SRP)
+- Separation of Concerns
+- Layered Architecture
+- Stateless Services
+- Component Reusability
+- Incremental Development
+- Type Safety
+- Clean Code
 
 ---
 
-# Software Architecture
+# Getting Started
 
-```text
-Presentation Layer
-        │
-        ▼
-Pages
-        │
-        ▼
-Shared Layout
-        │
-        ▼
-Hooks
-        │
-        ▼
-Context
-        │
-        ▼
-Services
-        │
-        ▼
-Backend
+Clone the repository
+
+```bash
+git clone <repository-url>
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Start the development server
+
+```bash
+npm run dev
+```
+
+Build the project
+
+```bash
+npm run build
+```
+
+Run ESLint
+
+```bash
+npm run lint
 ```
 
 ---
 
-# Learning Approach
+# Learning Goals
 
-Every architectural decision is discussed before implementation.
+This project is intentionally built without relying on copy-and-paste tutorials.
 
-The objective is not only to build a working application but to understand the reasoning behind every design decision.
+The objective is to understand not only **how** to implement features, but also **why** architectural decisions are made.
+
+The project focuses on:
+
+- Software Architecture
+- React Best Practices
+- TypeScript
+- AWS Integration
+- Clean Code
+- Scalable Frontend Design
+- Professional Development Workflow
+
+---
+
+# Future AWS Integration
+
+The current frontend uses mock services.
+
+These services will progressively be replaced with real AWS integrations:
+
+- Amazon Cognito
+- API Gateway
+- AWS Lambda
+- DynamoDB
+
+without changing the presentation layer.
+
+This demonstrates the benefits of a layered architecture and proper separation of concerns.
 
 ---
 
@@ -509,13 +291,4 @@ The objective is not only to build a working application but to understand the r
 
 Developed as a personal Software Engineering learning project.
 
-The focus of this repository is to demonstrate:
-
-- Software Architecture
-- React Best Practices
-- TypeScript
-- AWS Integration
-- Clean Code
-- Layered Architecture
-- Incremental Development
-- Professional Development Workflow
+The goal is to build a production-inspired full-stack application while understanding every architectural decision behind it.
