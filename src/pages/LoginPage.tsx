@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import type { LoginRequest } from '../types/LoginRequest';
 import { useNavigate } from 'react-router-dom';
-
+import { ROUTES } from '../constants/routes';
+import { AUTH_MESSAGES } from '../constants/messages';
 
 
 function LoginPage() {
@@ -22,7 +23,7 @@ function LoginPage() {
 
         if ( !username || !password) {
 
-            setError ('Please enter both username and password');
+            setError (AUTH_MESSAGES.REQUIRED_FIELDS);
             return;
         }
 
@@ -32,11 +33,15 @@ function LoginPage() {
         };
 
         try {
+            console.log('calling login...');
             await login(request);
 
-            navigate ('/dashboard');
+            console.log('login successful, navigating to dashboard...');
+
+            navigate (ROUTES.DASHBOARD);
         } catch {
-            setError('invalid username or paswword.');
+            console.error('Login failed');
+            setError(AUTH_MESSAGES.INVALID_CREDENTIALS);
         }
         };
 

@@ -6,11 +6,13 @@ import NotFoundPage from '../pages/NotFoundPage';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Layout from '../components/Layout';
 
+import { ROUTES } from '../constants/routes';
+
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
-      <Route path="/dashboard" element={
+      <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route path={ROUTES.DASHBOARD} element={
         <ProtectedRoute>
           <Layout>
             <DashboardPage />

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { AuthContextType } from '../types/AuthContextType';
 import type { User } from '../types/User';
 import type { LoginRequest } from '../types/LoginRequest';
-
+import { STORAGE_KEYS } from '../constants/storage';
 import { login as loginService, logout as logoutService } from '../services/AuthService';
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,7 +18,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isInitializing, setIsInitializing] = useState<boolean>(true);
 
     useEffect(() => {
-        const savedUser = localStorage.getItem('user');
+        const savedUser = localStorage.getItem(STORAGE_KEYS.USER);
 
         if (savedUser) {
             const user: User = JSON.parse(savedUser);
@@ -40,11 +40,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(response.user);
 
     localStorage.setItem(
-      'user',
+      STORAGE_KEYS.USER,
       JSON.stringify(response.user)
     );
 
-    console.log(localStorage.getItem('user'));
+    console.log(localStorage.getItem(STORAGE_KEYS.USER));
   } finally {
     setIsLoading(false);
   }
@@ -53,7 +53,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const logout = async (): Promise<void> => {
         await logoutService();
         setUser(null);
-        localStorage.removeItem('user');
+        localStorage.removeItem(STORAGE_KEYS.USER);
         // setIsAuthenticated(false);
     }
 
